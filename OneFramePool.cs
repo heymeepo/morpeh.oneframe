@@ -13,12 +13,12 @@ namespace Scellecs.Morpeh.OneFrame
             {
                 var entity = pooledEntities.Pop();
                 entity.AddComponent<OneFrameAssumed>();
-                entity.RemoveComponent<OneFramePooled>();
                 return entity;
             }
             else
             {
                 var oneframe = World.Default.CreateEntity();
+                oneframe.AddComponent<OneFramePooled>();
                 oneframe.AddComponent<OneFrameAssumed>();
                 return oneframe;
             }

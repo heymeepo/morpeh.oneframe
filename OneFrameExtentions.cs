@@ -52,9 +52,10 @@
 
         public static void ReleaseOneFrame(this Entity entity)
         {
-            if (entity.Has<OneFrameAssumed>())
+            if (entity.Has<OneFramePooled>())
             {
                 entity.RemoveComponent<OneFrameAssumed>();
+                entity.RemoveComponent<OneFramePooled>();
             }
         }
 

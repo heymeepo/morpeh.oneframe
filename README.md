@@ -16,7 +16,7 @@ https://github.com/heymeepo/morpeh.oneframe.git
 
 ## Usage
 
-You need to create ```ECS/Systems/OneFrameSystem``` and add it to the end of your system hierarchy in Installer as LateUpdateSystem.
+You need to create ```ECS/Systems/OneFrameSystem``` and add it to the end of your systems hierarchy in Installer as LateUpdateSystem.
 
 Now you can use oneframes in your systems as follows:
 
@@ -65,6 +65,8 @@ public override void OnUpdate(float deltaTime)
 ```
 
 Oneframe component will also be deleted at the end of the frame, but not the entity in this case.
+
+MultiWords are not supported. Works only with World.Default
 
 ## License
 

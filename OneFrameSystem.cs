@@ -30,7 +30,6 @@ namespace Scellecs.Morpeh.OneFrame
 
             foreach (var entity in filterAssumed)
             {
-                entity.AddComponent<OneFramePooled>();
                 entity.RemoveComponent<OneFrameAssumed>();
                 OneFramePool.Retrieve(entity);
             }
