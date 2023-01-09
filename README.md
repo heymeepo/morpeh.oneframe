@@ -66,16 +66,8 @@ public override void OnUpdate(float deltaTime)
 
 Oneframe component will also be deleted at the end of the frame, but not the entity in this case.
 
-<<<<<<< HEAD
 MultiWords are not supported. Works only with World.Default
 
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
-=======
-MultiWords are not supported. Works only with ```World.Default```
-
-## License
-
-[MIT](https://choosealicense.com/licenses/mit/)
->>>>>>> 26c31ed4a0eb82d77efddc35b07b852976f591d8
