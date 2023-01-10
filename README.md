@@ -44,7 +44,7 @@ public override void OnUpdate(float deltaTime)
 Oneframes will always be deleted at the end of the frame automatically.
 
 
-If you want to use oneframe entity, created by ```World.OneFrame<T>()``` in future, you have to release it with ```entity.ReleaseOneFrame()```
+If you want to use oneframe entity, created by ```World.OneFrame<T>()``` in future, you have to release it with ```entity.ReleaseOneFrame()``` to avoid bugs and unpredictable behavior.
 
 ```csharp
 private Filter filter;
@@ -64,9 +64,9 @@ public override void OnUpdate(float deltaTime)
 }
 ```
 
-Oneframe component will also be deleted at the end of the frame, but not the entity in this case.
+Oneframe component will also be deleted at the end of the frame in this case.
 
-MultiWords are not supported. Works only with World.Default
+MultiWords are not supported. Works only with ```World.Default```
 
 ## License
 
