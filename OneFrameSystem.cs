@@ -5,32 +5,26 @@
         private Filter filter;
         private Filter filterAssumed;
 
-        private Stash<OneFrame> oneFrameStash;
-        private Stash<OneFrameAssumed> assumedStash;
-
         public World World { get; set; }
 
         public void OnAwake()
         {
             filter = World.Filter.With<OneFrame>();
             filterAssumed = World.Filter.With<OneFrameAssumed>().Without<OneFrame>();
-
-            oneFrameStash = World.GetStash<OneFrame>();
-            assumedStash = World.GetStash<OneFrameAssumed>();
         }
 
         public unsafe void OnUpdate(float deltaTime)
         {
             foreach (var entity in filter)
             {
-                ref var oneFrame = ref oneFrameStash.Get(entity);
+                ref var oneFrame = ref entity.GetComponent<OneFrame>();
                 oneFrame.Remove(oneFrame.forEntity);
-                oneFrameStash.Remove(entity);
+                entity.RemoveComponent<OneFrame>();
             }
 
             foreach (var entity in filterAssumed)
             {
-                assumedStash.Remove(entity);
+                entity.RemoveComponent<OneFrameAssumed>();
                 OneFramePool.Retrieve(entity);
             }
         }
