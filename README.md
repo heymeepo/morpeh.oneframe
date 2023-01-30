@@ -40,7 +40,7 @@ You can use overloaded version of this methods as well:
 ```csharp
 public override void OnAwake()
 {
-    World.OneFrame(new CreateUnitRequest() { config = configService.GetUnitConfig("Zombie") });
+    World.OneFrame(new CreateUnitRequest() { config = configService.GetUnitConfig("Zombie"));
 }
 ```
 
