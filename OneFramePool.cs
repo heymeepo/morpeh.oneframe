@@ -12,22 +12,14 @@ namespace Scellecs.Morpeh.OneFrame
         {
             if (pool.Length >= worldID + 1)
             {
-                if (pool[worldID] == null)
-                {
-                    pool[worldID] = new Stack<Entity>();
-                }
-                else
-                {
-                    DisposeWorldPool(worldID);
-                    pool[worldID] = new Stack<Entity>();
-                }
+                DisposeWorldPool(worldID);
             }
             else
             {
                 Array.Resize(ref pool, worldID + 1);
-                pool[worldID] = new Stack<Entity>();
             }
 
+            pool[worldID] = new Stack<Entity>();
         }
 
         internal static Entity Assume(World world)
