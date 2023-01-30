@@ -66,7 +66,7 @@ public sealed class EnemyFactorySystem : ISystem
     }
 }
 ```
-Plugin uses an entity pool to avoid frequent unnecessary memory allocations, and if you want to use oneframe entity, created by ```World.OneFrame<T>()``` in future, you have to release it with ```entity.ReleaseOneFrame()``` , otherwise you may encounter bugs and unpredictable behavior. Oneframe component will also be deleted at the ```end``` of the frame in this case.
+Plugin uses an entity pool to avoid excessive memory allocations, and if you want to use oneframe entity, created by ```World.OneFrame<T>()``` in future, you have to release it with ```entity.ReleaseOneFrame()``` , otherwise you may encounter bugs and unpredictable behavior. Oneframe component will also be deleted at the ```end``` of the frame in this case.
 
 ```csharp
 public sealed class EnemyFactorySystem : ISystem
