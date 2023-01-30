@@ -15,7 +15,7 @@ https://github.com/heymeepo/morpeh.oneframe.git
 ```
 
 ## Usage
-You haven't to setup any manually, plugin will be initialized automatically after installation.
+You haven't to setup any manually, oneframe components will always be deleted at the end of the frame automatically.
 
 There are two options to use oneframes ```entity.OneFrame<T>()``` and ```world.OneFrame<T>()```
 
@@ -33,7 +33,6 @@ public override void OnUpdate(float deltaTime)
     }
 }
 ```
-Oneframe component will always be deleted at the end of the frame automatically.
 
 You can use overloaded version of this methods as well:
 
