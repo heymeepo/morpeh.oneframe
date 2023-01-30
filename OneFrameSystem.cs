@@ -1,40 +1,40 @@
-using Scellecs.Morpeh.Systems;
-using UnityEngine;
-using Unity.IL2CPP.CompilerServices;
-
-namespace Scellecs.Morpeh.OneFrame
+﻿namespace Scellecs.Morpeh.OneFrame
 {
-    [Il2CppSetOption(Option.NullChecks, false)]
-    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
-    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    [CreateAssetMenu(menuName = "ECS/Systems/" + nameof(OneFrameSystem))]
-    public sealed class OneFrameSystem : LateUpdateSystem
+    public sealed class OneFrameSystem : ICleanupSystem
     {
         private Filter filter;
         private Filter filterAssumed;
 
-        public override void OnAwake()
+        private Stash<OneFrame> oneFrameStash;
+        private Stash<OneFrameAssumed> assumedStash;
+
+        public World World { get; set; }
+
+        public void OnAwake()
         {
             filter = World.Filter.With<OneFrame>();
             filterAssumed = World.Filter.With<OneFrameAssumed>().Without<OneFrame>();
+
+            oneFrameStash = World.GetStash<OneFrame>();
+            assumedStash = World.GetStash<OneFrameAssumed>();
         }
 
-        public override unsafe void OnUpdate(float deltaTime)
+        public unsafe void OnUpdate(float deltaTime)
         {
             foreach (var entity in filter)
             {
-                var oneFrame = entity.GetComponent<OneFrame>();
+                ref var oneFrame = ref oneFrameStash.Get(entity);
                 oneFrame.Remove(oneFrame.forEntity);
-                entity.RemoveComponent<OneFrame>();
+                oneFrameStash.Remove(entity);
             }
 
             foreach (var entity in filterAssumed)
             {
-                entity.RemoveComponent<OneFrameAssumed>();
+                assumedStash.Remove(entity);
                 OneFramePool.Retrieve(entity);
             }
         }
 
-        public override void Dispose() => OneFramePool.Dispose();
+        public void Dispose() => OneFramePool.DisposeWorldPool(World.identifier);
     }
 }

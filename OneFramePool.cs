@@ -1,37 +1,81 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Scellecs.Morpeh.OneFrame
 {
     internal static class OneFramePool
     {
-        private static Stack<Entity> pooledEntities = new Stack<Entity>();
+        private static Stack<Entity>[] pool = Array.Empty<Stack<Entity>>();
 
-        internal static Entity Assume()
+        internal static void InitializeWorld(int worldID)
         {
-            if (pooledEntities.Count > 0)
+            if (pool.Length >= worldID + 1)
             {
-                var entity = pooledEntities.Pop();
+                if (pool[worldID] == null)
+                {
+                    pool[worldID] = new Stack<Entity>();
+                }
+                else
+                {
+                    DisposeWorldPool(worldID);
+                    pool[worldID] = new Stack<Entity>();
+                }
+            }
+            else
+            {
+                Array.Resize(ref pool, worldID + 1);
+                pool[worldID] = new Stack<Entity>();
+            }
+
+        }
+
+        internal static Entity Assume(World world)
+        {
+            var worldPool = pool[world.identifier];
+
+            if (worldPool.Count > 0)
+            {
+                var entity = worldPool.Pop();
                 entity.AddComponent<OneFrameAssumed>();
                 return entity;
             }
             else
             {
-                var oneframe = World.Default.CreateEntity();
+                var oneframe = world.CreateEntity();
                 oneframe.AddComponent<OneFramePooled>();
                 oneframe.AddComponent<OneFrameAssumed>();
                 return oneframe;
             }
         }
 
-        internal static void Retrieve(Entity entity) => pooledEntities.Push(entity);
+        internal static void Retrieve(Entity entity) => pool[entity.worldID].Push(entity);
+
+        internal static void DisposeWorldPool(int worldID)
+        {
+            var worldPool = pool[worldID];
+
+            if (worldPool != null)
+            {
+                while (worldPool.Count > 0)
+                {
+                    worldPool.Pop().RemoveComponent<OneFramePooled>();
+                }
+            }
+        }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-        internal static void Dispose()
+        private static void Dispose()
         {
-            while (pooledEntities.Count > 0)
+            foreach (var worldPool in pool)
             {
-                pooledEntities.Pop().RemoveComponent<OneFramePooled>();
+                if (worldPool != null)
+                {
+                    while (worldPool.Count > 0)
+                    {
+                        worldPool.Pop().RemoveComponent<OneFramePooled>();
+                    }
+                }
             }
         }
     }

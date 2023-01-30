@@ -4,7 +4,7 @@
     {
         public static void OneFrame<T>(this World world) where T : struct, IComponent
         {
-            var entity = OneFramePool.Assume();
+            var entity = OneFramePool.Assume(world);
 
             entity.SetComponent(new T());
             entity.SetComponent(new OneFrame() 
@@ -14,11 +14,11 @@
             });
         }
 
-        public static void OneFrame<T>(this World world, in T component) where T : struct, IComponent
+        public static void OneFrame<T>(this World world, in T oneFrameComponent) where T : struct, IComponent
         {
-            var entity = OneFramePool.Assume();
+            var entity = OneFramePool.Assume(world);
 
-            entity.SetComponent(component);
+            entity.SetComponent(oneFrameComponent);
             entity.SetComponent(new OneFrame()
             {
                 forEntity = entity,
@@ -28,7 +28,7 @@
 
         public static void OneFrame<T>(this Entity entity) where T : struct, IComponent
         {
-            var oneFrameEntity = OneFramePool.Assume();
+            var oneFrameEntity = OneFramePool.Assume(entity.world);
 
             entity.SetComponent(new T());
             oneFrameEntity.SetComponent(new OneFrame()
@@ -38,11 +38,11 @@
             });
         }
 
-        public static void OneFrame<T>(this Entity entity, in T component) where T : struct, IComponent
+        public static void OneFrame<T>(this Entity entity, in T oneFrameComponent) where T : struct, IComponent
         {
-            var oneFrameEntity = OneFramePool.Assume();
+            var oneFrameEntity = OneFramePool.Assume(entity.world);
 
-            entity.SetComponent(component);
+            entity.SetComponent(oneFrameComponent);
             oneFrameEntity.SetComponent(new OneFrame()
             {
                 forEntity = entity,
@@ -52,7 +52,7 @@
 
         public static void ReleaseOneFrame(this Entity entity)
         {
-            if (entity.Has<OneFramePooled>())
+            if (entity.Has<OneFrameAssumed>())
             {
                 entity.RemoveComponent<OneFrameAssumed>();
                 entity.RemoveComponent<OneFramePooled>();
