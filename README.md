@@ -15,12 +15,12 @@ https://github.com/heymeepo/morpeh.oneframe.git
 ```
 
 ## Usage
-You haven't to setup any manually, plugin will be initialized automatically after installation.
+You haven't to setup any manually, oneframe components will always be deleted at the end of the frame automatically.
 
 There are two options to use oneframes ```entity.OneFrame<T>()``` and ```world.OneFrame<T>()```
 
 ```csharp
-public override void OnUpdate(float deltaTime)
+public void OnUpdate(float deltaTime)
 {
     foreach (var entity in filter)
     {
@@ -33,12 +33,11 @@ public override void OnUpdate(float deltaTime)
     }
 }
 ```
-Oneframe component will always be deleted at the end of the frame automatically.
 
 You can use overloaded version of this methods as well:
 
 ```csharp
-public override void OnAwake()
+public void OnAwake()
 {
     World.OneFrame(new CreateUnitRequest() { config = configService.GetUnitConfig("Zombie"));
 }
@@ -49,12 +48,12 @@ public sealed class EnemyFactorySystem : ISystem
 {
     private Filter filter;
 
-    public override void OnAwake()
+    public void OnAwake()
     {
         filter = World.Filter.With<CreateUnitRequest>();
     }
 
-    public override void OnUpdate(float deltaTime)
+    public void OnUpdate(float deltaTime)
     {
         foreach (var entity in filter)
         {
@@ -67,7 +66,7 @@ public sealed class EnemyFactorySystem : ISystem
     }
 }
 ```
-Plugin uses an entity pool to avoid frequent unnecessary memory allocations, and if you want to use oneframe entity, created by ```World.OneFrame<T>()``` in future, you have to release it with ```entity.ReleaseOneFrame()``` , otherwise you may encounter bugs and unpredictable behavior. Oneframe component will also be deleted at the ```end``` of the frame in this case.
+Plugin uses an entity pool to avoid excessive memory allocations, if you want to use oneframe entity, created by ```World.OneFrame<T>()``` in future, you have to release it with ```entity.ReleaseOneFrame()``` , otherwise you may encounter bugs and unpredictable behavior. Oneframe component will also be deleted at the ```end``` of the frame in this case.
 
 ```csharp
 public sealed class EnemyFactorySystem : ISystem

@@ -1,3 +1,4 @@
+using System;
 using Unity.IL2CPP.CompilerServices;
 
 namespace Scellecs.Morpeh.OneFrame
@@ -8,6 +9,6 @@ namespace Scellecs.Morpeh.OneFrame
     internal unsafe struct OneFrame : IComponent
     {
         public Entity forEntity;
-        public delegate* managed<Entity, void> Remove;
+        [NonSerialized] public delegate* managed<Entity, void> Remove;
     }
 }
