@@ -34,7 +34,7 @@ public void OnUpdate(float deltaTime)
 }
 ```
 
-You can use overloaded version of this methods as well:
+You can use overloaded versions of this methods as well:
 
 ```csharp
 public void OnAwake()
