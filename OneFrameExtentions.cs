@@ -7,10 +7,10 @@
             var entity = OneFramePool.Assume(world);
 
             entity.SetComponent(new T());
-            entity.SetComponent(new OneFrame() 
+            entity.SetComponent(new OneFrame()
             {
                 forEntity = entity,
-                Remove = &RemoveOneFrame<T> 
+                Remove = &RemoveOneFrame<T>
             });
         }
 
@@ -59,6 +59,12 @@
             }
         }
 
-        private static void RemoveOneFrame<T>(Entity entity) where T : struct, IComponent => entity.RemoveComponent<T>();
+        private static void RemoveOneFrame<T>(Entity entity) where T : struct, IComponent
+        {
+            if (entity.Has<T>())
+            {
+                entity.RemoveComponent<T>();
+            }
+        }
     }
 }
