@@ -24,7 +24,11 @@
             foreach (var entity in filter)
             {
                 ref var oneFrame = ref oneFrameStash.Get(entity);
-                oneFrame.Remove(oneFrame.forEntity);
+
+                if (oneFrame.forEntity.IsNullOrDisposed() == false)
+                {
+                    oneFrame.Remove(oneFrame.forEntity);
+                }
                 oneFrameStash.Remove(entity);
             }
 
