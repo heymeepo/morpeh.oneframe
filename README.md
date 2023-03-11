@@ -39,7 +39,7 @@ You can use overloaded versions of this methods as well:
 ```csharp
 public void OnAwake()
 {
-    World.OneFrame(new CreateUnitRequest() { config = configService.GetUnitConfig("Zombie"));
+    World.OneFrame(new CreateUnitRequest() { config = configService.GetUnitConfig("Zombie") });
 }
 ```
 
